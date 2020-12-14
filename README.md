@@ -2,7 +2,11 @@ DOMA - Digital Orienteering Map Archive
 
 PHP/MySQL website for storage and display of orienteering maps.
 
-#### Branch by rikoster on 2020-12-13
+By _Mats Troeng_ in (https://github.com/matstroeng/doma)
+ * All the visible functionality is by Mats & co.! (Good stuff)
+ * This code is about some adaptations to the blumbing
+
+### Fork by rikoster on 2020-12-13
 
 This GAE version of DOMA is adapted for Google Application Engine serverless environment. 
  * All maps are stored in Google Cloud Storage in a different location from the source code. 
@@ -18,9 +22,9 @@ Beyond these five main sources of change, there are two other small changes
 Instructions for setting up DOMA in Google App Engine environment
 -----------------------------------------------------------------
 
-1. [Download Google Cloud SDK] (https://cloud.google.com/sdk/docs/install)
+1. [Download Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 
-2. [Create a Google Cloud project] (https://cloud.google.com/resource-manager/docs/creating-managing-projects)
+2. [Create a Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
    - You need to connect the project to a billing account, otherwise deployment will not work
 
 3. [Make sure you have access to a Google SQL Cloud MySQL Instance] (https://cloud.google.com/sql/docs/mysql/quickstart)
