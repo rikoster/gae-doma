@@ -1,0 +1,37 @@
+# App Engine runtime configuration
+runtime: php73
+
+# F1 is the cheapest instance class.
+instance_class: F1
+
+# Defaults to "serve index.php" and "serve public/index.php".
+# The custom entrypoint helps to keep the original index.php for DOMA.
+entrypoint: serve gae-app.php
+
+# Defines static handlers to serve assets
+
+handlers:
+  - url: /favicon\.ico
+    static_files: gfx/favicon.png
+    upload: favicon\.ico
+
+  - url: /(.*\.(htm|html|css|js))$
+    secure: always
+    redirect_http_response_code: 301
+    static_files: \1
+    upload: .*\.(htm|html|css|js)$
+
+  - url: /js
+    secure: always
+    redirect_http_response_code: 301
+    static_dir: js
+
+  - url: /gfx
+    secure: always
+    redirect_http_response_code: 301
+    static_dir: gfx
+
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
