@@ -26,6 +26,8 @@
     'IMAGE_RESIZING_METHOD' => '1',
     'USE_GA' => '0',
     'GA_TRACKER' => '',
+    // Added by rikoster on 2020-12-13 to support new Google Analytics
+    'GTAG_ID' => '',
     'TIME_ZONE' => '',
     'USE_3DRERUN' => '0',
     'RERUN_MAX_TRIES' => '5',
@@ -33,7 +35,10 @@
     'RERUN_APIKEY' => 'xxxxxx',
     'RERUN_APIURL' => 'http://omaps.worldofo.com/apicall.php?apikey={0}&link={1}',
     'GOOGLE_MAPS_API_KEY' => '',
-    'ROOT_URL' => ''
+    'ROOT_URL' => '',
+    // Added by rikoster on 2020-12-13 to support MailJet
+    'MJ_APIKEY_PUBLIC' => 'xxxxx',
+    'MJ_APIKEY_PRIVATE' => 'xxxxxx'
   );
 
   foreach ($newConfigurationSettings as $key => $value)

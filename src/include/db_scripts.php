@@ -1,6 +1,9 @@
 <?php
   include_once(dirname(__FILE__) ."/definitions.php");
 
+  // [rikoster on 2020-12-13] in Google Cloud SQL MyIsam is not available.
+  // InnoDB works perfectly for DOMA, so all InnoDB references are switched to InnoDB
+  //
   // returns an array with database scripts that have to be executed to update the database to current version
   function getScripts()
   {
@@ -16,11 +19,11 @@
       //array('version' => '2.0', 'scripts' => 'DROP TABLE IF EXISTS `'. DB_CATEGORY_TABLE .'`'),
       array('version' => '2.0',
             'scripts' => array(
-              'CREATE TABLE `'. DB_MAP_TABLE .'` (`ID` int(10) unsigned NOT NULL auto_increment, `UserID` int(10) unsigned NOT NULL, `CategoryID` INT UNSIGNED NOT NULL, `Date` datetime NOT NULL, `Name` varchar(50) character set utf8 NOT NULL, `Organiser` varchar(50) character set utf8 NOT NULL, `Country` varchar(20) character set utf8 NOT NULL, `Discipline` varchar(40) character set utf8 NOT NULL, `RelayLeg` varchar(10) character set utf8 NOT NULL, `MapName` varchar(50) character set utf8 NOT NULL, `ResultListUrl` text character set utf8 NOT NULL, `MapImage` varchar(100) character set utf8 NOT NULL, `ThumbnailImage` varchar(100) collate utf8_swedish_ci NOT NULL, `Comment` mediumtext character set utf8 NOT NULL, `Views` int(10) unsigned NOT NULL, `LastChangedTime` datetime NOT NULL, PRIMARY KEY  (`ID`), KEY `I_UserID` (`UserID`)) ENGINE=MyISAM DEFAULT CHARSET=utf8',
-              'CREATE TABLE `'. DB_SETTING_TABLE .'` (`Key` VARCHAR(100) NOT NULL, `Value` text NOT NULL, PRIMARY KEY (`Key`)) ENGINE=MyISAM DEFAULT CHARSET=utf8',
-                               'CREATE TABLE `'. DB_USER_TABLE .'` (`ID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `Username` VARCHAR(30) character set utf8 NOT NULL, `Password` TEXT character set utf8 NOT NULL , `FirstName` VARCHAR(30) character set utf8 NOT NULL, `LastName` VARCHAR(30) character set utf8 NOT NULL, `Email` VARCHAR(60) character set utf8 NOT NULL, `Visible` TINYINT UNSIGNED NOT NULL DEFAULT \'1\', `DefaultCategoryID` INT UNSIGNED NOT NULL, UNIQUE (`Username`)) ENGINE = MYISAM DEFAULT CHARSET=utf8',
-              'CREATE TABLE `'. DB_USER_SETTING_TABLE .'` (`UserID` INT UNSIGNED NOT NULL, `Key` VARCHAR(50) character set utf8 NOT NULL, `Value` TEXT character set utf8 NOT NULL, PRIMARY KEY ( `UserID` , `Key` )) ENGINE = MYISAM DEFAULT CHARSET=utf8',
-              'CREATE TABLE `'. DB_CATEGORY_TABLE .'` (`ID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `UserID` INT UNSIGNED NOT NULL, `Name` VARCHAR(40) NOT NULL, KEY `I_UserID` (`UserID`)) ENGINE = MYISAM DEFAULT CHARSET=utf8')
+              'CREATE TABLE `'. DB_MAP_TABLE .'` (`ID` int(10) unsigned NOT NULL auto_increment, `UserID` int(10) unsigned NOT NULL, `CategoryID` INT UNSIGNED NOT NULL, `Date` datetime NOT NULL, `Name` varchar(50) character set utf8 NOT NULL, `Organiser` varchar(50) character set utf8 NOT NULL, `Country` varchar(20) character set utf8 NOT NULL, `Discipline` varchar(40) character set utf8 NOT NULL, `RelayLeg` varchar(10) character set utf8 NOT NULL, `MapName` varchar(50) character set utf8 NOT NULL, `ResultListUrl` text character set utf8 NOT NULL, `MapImage` varchar(100) character set utf8 NOT NULL, `ThumbnailImage` varchar(100) collate utf8_swedish_ci NOT NULL, `Comment` mediumtext character set utf8 NOT NULL, `Views` int(10) unsigned NOT NULL, `LastChangedTime` datetime NOT NULL, PRIMARY KEY  (`ID`), KEY `I_UserID` (`UserID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+              'CREATE TABLE `'. DB_SETTING_TABLE .'` (`Key` VARCHAR(100) NOT NULL, `Value` text NOT NULL, PRIMARY KEY (`Key`)) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+                               'CREATE TABLE `'. DB_USER_TABLE .'` (`ID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `Username` VARCHAR(30) character set utf8 NOT NULL, `Password` TEXT character set utf8 NOT NULL , `FirstName` VARCHAR(30) character set utf8 NOT NULL, `LastName` VARCHAR(30) character set utf8 NOT NULL, `Email` VARCHAR(60) character set utf8 NOT NULL, `Visible` TINYINT UNSIGNED NOT NULL DEFAULT \'1\', `DefaultCategoryID` INT UNSIGNED NOT NULL, UNIQUE (`Username`)) ENGINE = InnoDB DEFAULT CHARSET=utf8',
+              'CREATE TABLE `'. DB_USER_SETTING_TABLE .'` (`UserID` INT UNSIGNED NOT NULL, `Key` VARCHAR(50) character set utf8 NOT NULL, `Value` TEXT character set utf8 NOT NULL, PRIMARY KEY ( `UserID` , `Key` )) ENGINE = InnoDB DEFAULT CHARSET=utf8',
+              'CREATE TABLE `'. DB_CATEGORY_TABLE .'` (`ID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `UserID` INT UNSIGNED NOT NULL, `Name` VARCHAR(40) NOT NULL, KEY `I_UserID` (`UserID`)) ENGINE = InnoDB DEFAULT CHARSET=utf8')
            ),
 
       // 2.1
@@ -65,7 +68,7 @@
       array("version" => "3.0.1",
             "scripts" => array(
                //comments
-              "CREATE TABLE `". DB_COMMENT_TABLE ."` (`ID` int(10) NOT NULL AUTO_INCREMENT, `MapID` int(10) NOT NULL, `Name` varchar(200) CHARACTER SET utf8 NOT NULL, `Email` varchar(200) CHARACTER SET utf8 DEFAULT NULL, `Comment` text CHARACTER SET utf8 NOT NULL, `DateCreated` datetime NOT NULL, `UserIP` varchar(200) CHARACTER SET utf8 NOT NULL, PRIMARY KEY (`ID`)) ENGINE = MYISAM DEFAULT CHARSET=utf8")
+              "CREATE TABLE `". DB_COMMENT_TABLE ."` (`ID` int(10) NOT NULL AUTO_INCREMENT, `MapID` int(10) NOT NULL, `Name` varchar(200) CHARACTER SET utf8 NOT NULL, `Email` varchar(200) CHARACTER SET utf8 DEFAULT NULL, `Comment` text CHARACTER SET utf8 NOT NULL, `DateCreated` datetime NOT NULL, `UserIP` varchar(200) CHARACTER SET utf8 NOT NULL, PRIMARY KEY (`ID`)) ENGINE = InnoDB DEFAULT CHARSET=utf8")
            ),
 
       array("version" => "3.0.2",

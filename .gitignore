@@ -1,2 +1,7 @@
 .idea
 
+# Do not commit the confidential config info
+/src/config.php
+
+# No reason to include the 3rd party libraries, installed by Composer
+/src/vendor

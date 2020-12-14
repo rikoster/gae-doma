@@ -4,6 +4,10 @@
   include_once(dirname(__FILE__) ."/../config.php");
   include_once(dirname(__FILE__) ."/definitions.php");
 
+  // additions by rikoster on 2020-12-13 to enable Google Cloud Storage
+  // and its Streamwrapper for 'gs://'
+  require_once(dirname(__FILE__) ."/gcs_streamwrapper.php");
+
   // set character encoding
   header('Content-Type: text/html; charset=utf-8');
 

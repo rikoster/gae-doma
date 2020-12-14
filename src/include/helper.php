@@ -1,5 +1,7 @@
 <?php
   // Some often-used functions that needs short names are wrapped and placed in global scope
+// [rikoster on 2020-12-13] added this as normal php mail is not enough
+  require_once(dirname(__FILE__) ."/mailjet_sender.php");
 
   function __($key, $htmlSpecialChars = false)
   {
@@ -102,11 +104,17 @@
     /**
     * Creates a url relative to the server root, e g /subdir/index.php.
     *
+    * Modified by rikoster on 2020-12-13 for Google App Engine. 
+    * This is used solely to generate map image urls.
     */
     public static function ServerPath($path)
     {
       if(substr($path, 0, 1) == "/") $path = substr($path, 1);
-      return ROOT_URL . PROJECT_DIRECTORY . $path;
+      if(substr($path, 0, 5) == GS_SCHEME) {
+        return GS_STORAGE_URL . substr($path, 5);
+      } else {
+        return ROOT_URL . PROJECT_DIRECTORY . $path;
+      }
     }
 
     /**
@@ -119,21 +127,31 @@
     /**
     * Creates a rooted path on the local machine e g c:\inetpub\wwwroot\subdir/index.php.
     *
+    * Modified by rikoster on 2020-12-13 for Google App Engine. 
     */
     public static function LocalPath($path)
     {
       if(substr($path, 0, 1) == "/") $path = substr($path, 1);
-      return ROOT_PATH . $path;
+      if(substr($path, 0, 5) == GS_SCHEME) {
+        return $path;
+      } else {
+        return ROOT_PATH . $path;
+      }
     }
 
     /**
     * Creates a full url, e g http://www.mymaparchive.com/subdir/index.php.
     *
+    * Modified by rikoster on 2020-12-13 for Google App Engine. 
     */
     public static function GlobalPath($path)
     {
       if(substr($path, 0, 1) == "/") $path = substr($path, 1);
-      return BASE_URL . $path;
+      if(substr($path, 0, 5) == GS_SCHEME) {
+        return GS_STORAGE_URL . substr($path, 5);
+      } else {
+        return BASE_URL . $path;
+      }
     }
 
     public static function LoginAdmin($username, $password)
@@ -526,10 +544,13 @@
     public static function SendEmail($fromName, $toEmail, $subject, $body)
     {
       if(ADMIN_EMAIL == "email@yourdomain.com") return false; // the address is the default one, don't send
-      $header = "From: ". utf8_decode($fromName) . " <" . ADMIN_EMAIL . ">\r\n";
-      ini_set('sendmail_from', ADMIN_EMAIL);
-      $result = @mail($toEmail, utf8_decode($subject), utf8_decode($body), $header);
-      return $result;
+      // [rikoster 2020-12-13] The standard php mailing needs to be replaced with MailJet
+      return MailjetSender::send($fromName, $toEmail, $subject, $body);
+
+      //$header = "From: ". utf8_decode($fromName) . " <" . ADMIN_EMAIL . ">\r\n";
+      //ini_set('sendmail_from', ADMIN_EMAIL);
+      //$result = @mail($toEmail, utf8_decode($subject), utf8_decode($body), $header);
+      //return $result;
     }
 
     public static function IsValidEmailAddress($emailAddress)
@@ -826,11 +847,30 @@
     {
       if(USE_GA == "1")
       {
+        // This script has been switched by rikoster on 2020-12-13 to
+        // match the new GTAG-based Google Analytics instead of the old
+        // GA-based Google Analytics. (old script commented out)
         ?>
+        <script type="text/javascript">
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '<?php print GTAG_ID; ?>');
+
+          (function() {
+            var gtag = document.createElement('script');
+            gtag.type = 'text/javascript'; 
+            gtag.async = true;
+            gtag.src = 'https://www.googletagmanager.com/gtag/js?id=<?php print GTAG_ID; ?>';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gtag, s);
+          })();
+
+        </script>
+<!--
         <script type="text/javascript">
 
           var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', '<?php print GA_TRACKER; ?>']);
+          _gaq.push(['_setAccount', '<?php // print GA_TRACKER; ?>']);
           _gaq.push(['_trackPageview']);
 
           (function() {
@@ -840,6 +880,7 @@
           })();
 
         </script>
+-->
         <?php
       }
     }

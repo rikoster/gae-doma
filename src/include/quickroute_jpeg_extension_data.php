@@ -70,7 +70,9 @@
               $stamp = fread($fp, 10);
               if($stamp == "QuickRoute")
               {
-                $data .= fread($fp, $length - 12);
+                // One line hanged by rikoster on 2020-12-13 to support Google App Engine
+                //$data .= fread($fp, $length - 12);
+                $data .= stream_get_contents($fp, $length - 12);
                 $quickrouteSegment = true;
               }
               else

@@ -1,6 +1,11 @@
 <?php
   include_once(dirname(__FILE__) ."/config.php");
   include_once(dirname(__FILE__) ."/include/definitions.php");
+
+  // additions by rikoster on 2020-12-13 to enable Google Cloud Storage
+  // and its Streamwrapper for 'gs://'
+  require_once(dirname(__FILE__) ."/include/gcs_streamwrapper.php");
+
   include_once(dirname(__FILE__) ."/include/nusoap.php");
 
   define("NAMESPACE1", 'http://www.matstroeng.se/doma');

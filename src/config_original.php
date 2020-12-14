@@ -12,7 +12,23 @@
 
   // User names and passwords.
   // Database login information, ask your database server administrator/web hotel provider if you don't know.
-  define('DB_HOST', 'localhost');
+  //
+  // EDITS by rikoster on 2020-12-13
+  //
+  // Is true on Google App Engine production.
+  if (isset($_SERVER['GAE_ENV'])) {
+    /** Production MySql info */
+    define('DB_HOST', null);
+    define('DB_PORT', null);
+    // Your GAE socket name follows typically the pattern below
+    define('DB_SOCKET', '/cloudsql/<project>:<region>:<instance>');
+  } else {
+    /** Local environment MySQL info */
+    define('DB_HOST', 'localhost');
+
+    // Necessary for local use of Google Cloud Storage
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=path/to/your/credentials/file/<filename>.json');
+  }
   define('DB_USERNAME', 'yourDatabaseUsername');
   define('DB_PASSWORD', 'yourDatabasePassword');
   // The name of the database where the map information is stored. The database must exist prior to creation of the site.
@@ -33,8 +49,21 @@
   define('ADMIN_PASSWORD', 'yourAdminPassword');
 
   // Path to the map image directory, relative to this file. Don't change unless you have a good reason.
-  // The directory is created during creation. Write access to the directory for the server user account under which PHP runs is required.
-  define('MAP_IMAGE_PATH', 'map_images');
+  //
+  // [rikoster 2020-12-13] - This has to be changed in Google Application Engine,
+  // the maps are in a Google Cloud Storage bucket.
+  //
+  // define('MAP_IMAGE_PATH', 'map_images');
+  //
+  // Don't change this unless you have a good reason to
+  define('GS_SCHEME', 'gs://');
+
+  define('GS_BUCKET', 'yourGSBucketName');
+  define('MAP_IMAGE_DIR', '/map_images');
+  define('MAP_IMAGE_PATH', GS_SCHEME . GS_BUCKET . MAP_IMAGE_DIR);
+
+  // Don't change this unless you have a good reason to
+  define('GS_STORAGE_URL', 'https://storage.googleapis.com/');
 
   // The default language code of the site according to ISO 639-1 language codes: http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
   // Language files are in xml format, named [language code].xml (e.g. en.xml) and located in the 'languages' directory.
@@ -71,6 +100,13 @@
   // The email address must be changed from email@yourdomain.com to a valid address, or the sending won't work.
   define('ADMIN_EMAIL', 'email@yourdomain.com');
 
+  // [rikoster 2020-12-13] In Google App Engine the php native mailing client
+  // cannot be used, MailJet is used instead. Please aquire a MailJet account.
+  // https://github.com/mailjet/mailjet-apiv3-php#make-your-first-call
+  // (It has sufficient volumes of Montly free messages for DOMA purposes)
+  define('MJ_APIKEY_PUBLIC', 'yourApiKey');
+  define('MJ_APIKEY_PRIVATE', 'yourApiSecret');
+
   // Specifies the code that a person has to enter when creating a new user accounts by himself without any administrator involved.
   // Leave the code empty ('') to prevent people to create user accounts theirselves.
   define('PUBLIC_USER_CREATION_CODE', '');
@@ -104,7 +140,11 @@
 
   // Path to temporary file storage directory, relative to this file. Don't change unless you have a good reason.
   // The directory is created during creation. Write access to the directory for the server user account under which PHP runs is required.
-  define('TEMP_FILE_PATH', 'temp');
+  //
+  // [rikoster 2020-12-13] Changing for Google Cloud Storage
+  // define('TEMP_FILE_PATH', 'temp');
+  define('TEMP_DIR', '/temp');
+  define('TEMP_FILE_PATH', GS_SCHEME . GS_BUCKET . TEMP_DIR);
 
   // Show languages in topbar (1 = yes, 0 = no)
   define('SHOW_LANGUAGES_IN_TOPBAR','1');
@@ -124,8 +164,10 @@
 
   // Include Google Analytics script (1 = yes, 0 = no) / creates in index.php, users.php, show_map.php
   define('USE_GA', '0');
-  define('GA_TRACKER', 'UA-1234567-8');
-
+  // [rikoster 2020-12-13] Updating the constant name for up-to-date Google Analytics
+  define('GTAG_ID', 'G-A1234567BC');
+  //define('GA_TRACKER', 'UA-1234567-8');
+  
   // If you want a different time zone than the server's time zone, specify it here. An empty string means that the server's default time zone is used.
   // see http://www.php.net/manual/en/timezones.php for available time zones.
   define('TIME_ZONE', '');
