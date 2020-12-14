@@ -18,8 +18,7 @@ environment.
  * Sending email in GAE requires Mailjet
  * GAE environment requires a front controller and app.yaml -configuration file
  * In reading jpeg metadata, it is necessary to replace fread with
-   stream_get_contents -function for the purpose of reading a large section from
-   Google Cloud Storage
+   stream_get_contents -function in one code row
 
 Beyond these five main sources of change, there are two other small changes
  * All urls to Google Maps API use now https
