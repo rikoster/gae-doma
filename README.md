@@ -27,20 +27,20 @@ Instructions for setting up DOMA in Google App Engine environment
 2. [Create a Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
    - You need to connect the project to a billing account, otherwise deployment will not work
 
-3. [Make sure you have access to a Google SQL Cloud MySQL Instance] (https://cloud.google.com/sql/docs/mysql/quickstart)
+3. [Make sure you have access to a Google SQL Cloud MySQL Instance](https://cloud.google.com/sql/docs/mysql/quickstart)
 
-4. [Create a non-root database user for the purposes of DOMA] (https://cloud.google.com/sql/docs/mysql/create-manage-users)
+4. [Create a non-root database user for the purposes of DOMA](https://cloud.google.com/sql/docs/mysql/create-manage-users)
 
-5. [Create a database in your Google SQL Cloud Instance for DOMA] (https://cloud.google.com/sql/docs/mysql/create-manage-databases)
+5. [Create a database in your Google SQL Cloud Instance for DOMA](https://cloud.google.com/sql/docs/mysql/create-manage-databases)
 
-6. [Create an app for your project] (https://cloud.google.com/appengine) 
+6. [Create an app for your project](https://cloud.google.com/appengine) 
 
 7. Enable Cloud SQL Admin API
    - The following command avalable in Google Cloud SDK does it
 
    * gcloud services enable sqladmin.googleapis.com
 
-8. [Locate your default Google Cloud Storage Bucket] (https://cloud.google.com/appengine/docs/standard/php7/using-cloud-storage)
+8. [Locate your default Google Cloud Storage Bucket](https://cloud.google.com/appengine/docs/standard/php7/using-cloud-storage)
    - Typically has the address gs://YOUR_PROJECT_ID.appspot.com
 
 9. Change the default Access Control List (ACL) of that bucket as follows (also
@@ -61,12 +61,12 @@ Instructions for setting up DOMA in Google App Engine environment
     - gcloud services enable maps-backend.googleapis.com
 
 12. (optional) For local use, create another ServiceAccount and a credential file for it that can be downloaded as a .json file
-    - [See e.g. here] (https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts)
+    - [See e.g. here](https://cloud.google.com/sdk/gcloud/reference/iam/service-accounts)
 
 13. (optional) Authorize the other ServiceAccount to your cloud storage
     * gsutil iam ch serviceAccount:YOUR_CUSTOM_ACCOUNT@appspot.gserviceaccount.com:admin gs://YOUR_PROJECT_ID.appspot.com
 
-14. (optional) [For local access to your Cloud SQL database, install Cloud SQL Proxy] (https://cloud.google.com/sql/docs/mysql/sql-proxy)
+14. (optional) [For local access to your Cloud SQL database, install Cloud SQL Proxy](https://cloud.google.com/sql/docs/mysql/sql-proxy)
     * 
 15. Install [Composer] (https://getcomposer.org/) for your local php if you don't have yet
 
